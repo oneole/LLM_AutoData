@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能数据分析平台</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+        }
+
+        .sidebar {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .database-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .database-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .database-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            color: var(--secondary);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .database-link:hover, .database-link.active {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .database-link.active {
+            font-weight: 500;
+        }
+
+        .saved-queries {
+            list-style: none;
+        }
+
+        .saved-query {
+            margin-bottom: 0.5rem;
+        }
+
+        .saved-query-link {
+            display: block;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            color: var(--secondary);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .saved-query-link:hover {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .query-panel {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .query-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .query-box {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .query-box:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--secondary);
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+            color: var(--primary);
+        }
+
+        .results-panel {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1rem;
+            font-weight: 500;
+            color: var(--secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .sql-code {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            color: #334155;
+            white-space: pre-wrap;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--dark);
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .visualization {
+            width: 100%;
+            height: 400px;
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart {
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+        }
+
+        .analysis {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .analysis-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .examples {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .example-item {
+            padding: 0.5rem 0;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .example-item:hover {
+            text-decoration: underline;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--success);
+            margin-top: 0.5rem;
+        }
+
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <span>智能数据分析平台</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">首页</a>
+                <a href="#" class="nav-link">数据库管理</a>
+                <a href="#" class="nav-link">保存的查询</a>
+                <a href="#" class="nav-link">帮助文档</a>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div class="dashboard">
+                <aside class="sidebar">
+                    <h3 class="sidebar-title">数据库连接</h3>
+                    <ul class="database-list">
+                        <li class="database-item">
+                            <a href="#" class="database-link active">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 11l18-5v12L3 14v-3z"></path>
+                                    <path d="M11.6 16.8a3 3 0 11-5.8-1.6"></path>
+                                </svg>
+                                Northwind 数据库
+                            </a>
+                        </li>
+                        <li class="database-item">
+                            <a href="#" class="database-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 11l18-5v12L3 14v-3z"></path>
+                                    <path d="M11.6 16.8a3 3 0 11-5.8-1.6"></path>
+                                </svg>
+                                销售数据库
+                            </a>
+                        </li>
+                        <li class="database-item">
+                            <a href="#" class="database-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 11l18-5v12L3 14v-3z"></path>
+                                    <path d="M11.6 16.8a3 3 0 11-5.8-1.6"></path>
+                                </svg>
+                                客户数据库
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h3 class="sidebar-title">保存的查询</h3>
+                    <ul class="saved-queries">
+                        <li class="saved-query">
+                            <a href="#" class="saved-query-link">按国家统计销售额</a>
+                        </li>
+                        <li class="saved-query">
+                            <a href="#" class="saved-query-link">最畅销产品分析</a>
+                        </li>
+                        <li class="saved-query">
+                            <a href="#" class="saved-query-link">员工业绩对比</a>
+                        </li>
+                        <li class="saved-query">
+                            <a href="#" class="saved-query-link">季度销售趋势</a>
+                        </li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <div class="query-panel">
+                        <h2 class="query-title">自然语言查询</h2>
+                        <textarea class="query-box" placeholder="使用自然语言描述您的查询需求，例如：'显示2023年每月销售额，并按产品类别分组'"></textarea>
+                        <div class="examples">
+                            <div class="example-item">查询销量最高的前10个产品及其类别</div>
+                            <div class="example-item">按地区统计今年第一季度的销售总额并与去年同期比较</div>
+                            <div class="example-item">找出订单量最多的客户以及他们的购买频率</div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                                执行查询
+                            </button>
+                            <button class="btn btn-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                    <polyline points="7 3 7 8 15 8"></polyline>
+                                </svg>
+                                保存查询
+                            </button>
+                        </div>
+                        <div class="status">
+                            <div class="status-icon"></div>
+                            <span>已连接到 Northwind 数据库</span>
+                        </div>
+                    </div>
+
+                    <div class="results-panel">
+                        <div class="tabs">
+                            <div class="tab active">SQL查询</div>
+                            <div class="tab">数据表格</div>
+                            <div class="tab">可视化</div>
+                            <div class="tab">数据分析</div>
+                        </div>
+
+                        <div class="tab-content active">
+                            <div class="sql-code">
+SELECT c.CategoryName, SUM(od.Quantity * od.UnitPrice) as TotalSales
+FROM Categories c
+JOIN Products p ON c.CategoryID = p.CategoryID
+JOIN [Order Details] od ON p.ProductID = od.ProductID
+JOIN Orders o ON od.OrderID = o.OrderID
+WHERE YEAR(o.OrderDate) = 2023
+GROUP BY c.CategoryName
+ORDER BY TotalSales DESC;
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>类别名称</th>
+                                        <th>销售总额</th>
+                                        <th>占比</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>海鲜</td>
+                                        <td>¥265,432.89</td>
+                                        <td>32.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>肉/家禽</td>
+                                        <td>¥187,621.45</td>
+                                        <td>23.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>饮料</td>
+                                        <td>¥125,874.32</td>
+                                        <td>15.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>乳制品</td>
+                                        <td>¥95,632.10</td>
+                                        <td>11.7%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>调味品</td>
+                                        <td>¥75,482.65</td>
+                                        <td>9.2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>谷物/面包</td>
+                                        <td>¥45,321.78</td>
+                                        <td>5.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>零食</td>
+                                        <td>¥21,436.90</td>
+                                        <td>2.6%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="visualization">
+                                <div class="chart-container">
+                                    <svg class="chart" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- 简单模拟一个柱状图 -->
+                                        <rect x="100" y="50" width="80" height="300" fill="#3b82f6" opacity="0.8"></rect>
+                                        <rect x="200" y="90" width="80" height="260" fill="#3b82f6" opacity="0.8"></rect>
+                                        <rect x="300" y="150" width="80" height="200" fill="#3b82f6" opacity="0.8"></rect>
+                                        <rect x="400" y="180" width="80" height="170" fill="#3b82f6" opacity="0.8"></rect>
+                                        <rect x="500" y="210" width="80" height="140" fill="#3b82f6" opacity="0.8"></rect>
+                                        <rect x="600" y="250" width="80" height="100" fill="#3b82f6" opacity="0.8"></rect>
+                                        <rect x="700" y="290" width="80" height="60" fill="#3b82f6" opacity="0.8"></rect>
+                                        
+                                        <!-- 坐标轴 -->
+                                        <line x1="80" y1="350" x2="780" y2="350" stroke="#94a3b8" stroke-width="2"></line>
+                                        <line x1="80" y1="50" x2="80" y2="350" stroke="#94a3b8" stroke-width="2"></line>
+                                        
+                                        <!-- 标签 -->
+                                        <text x="140" y="370" text-anchor="middle" fill="#64748b">海鲜</text>
+                                        <text x="240" y="370" text-anchor="middle" fill="#64748b">肉/家禽</text>
+                                        <text x="340" y="370" text-anchor="middle" fill="#64748b">饮料</text>
+                                        <text x="440" y="370" text-anchor="middle" fill="#64748b">乳制品</text>
+                                        <text x="540" y="370" text-anchor="middle" fill="#64748b">调味品</text>
+                                        <text x="640" y="370" text-anchor="middle" fill="#64748b">谷物/面包</text>
+                                        <text x="740" y="370" text-anchor="middle" fill="#64748b">零食</text>
+                                        
+                                        <text x="60" y="350" text-anchor="end" fill="#64748b">0</text>
+                                        <text x="60" y="250" text-anchor="end" fill="#64748b">100k</text>
+                                        <text x="60" y="150" text-anchor="end" fill="#64748b">200k</text>
+                                        <text x="60" y="50" text-anchor="end" fill="#64748b">300k</text>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="analysis">
+                                <h4 class="analysis-title">数据洞察</h4>
+                                <p>海鲜类别是最畅销的产品分类，贡献了2023年总销售额的32.5%。肉/家禽类排名第二，占比23%。这两个类别合计占总销售额的一半以上（55.5%）。</p>
+                                <p>饮料、乳制品和调味品类别处于中等销售水平，合计占总销售额的36.3%。</p>
+                                <p>谷物/面包和零食类别销售额相对较低，仅占总销售额的8.1%。可以考虑针对这些类别推出促销活动或产品创新，提升销售表现。</p>
+                            </div>
+                            <div class="analysis">
+                                <h4 class="analysis-title">建议行动</h4>
+                                <p>1. 增加海鲜和肉/家禽类产品的库存，以满足高需求</p>
+                                <p>2. 分析饮料类别的增长潜力，可能通过季节性促销提升销售</p>
+                                <p>3. 考虑调整谷物/面包和零食类别的营销策略，挖掘增长机会</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 简单的标签切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    // 移除所有活动状态
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 激活当前标签
+                    tab.classList.add('active');
+                    tabContents[index].classList.add('active');
+                });
+            });
+
+            // 示例查询点击功能
+            const examples = document.querySelectorAll('.example-item');
+            const queryBox = document.querySelector('.query-box');
+            
+            examples.forEach(example => {
+                example.addEventListener('click', () => {
+                    queryBox.value = example.textContent;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
