@@ -22,7 +22,7 @@
 ### 2.2 开发环境
 
 1. **Python 安装**：
-   - 下载并安装 Python 3.9 或更高版本：
+   - 下载并安装 Python 3.9 或更高版本（不要安装最新版本）：
      - 官方网站：[https://www.python.org/downloads/](https://www.python.org/downloads/)
    - 安装 PyCharm 或 VSCode：
      - PyCharm：[https://www.jetbrains.com/pycharm/download/](https://www.jetbrains.com/pycharm/download/)
