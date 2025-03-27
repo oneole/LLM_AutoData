@@ -14,7 +14,7 @@ import os
 db_host = os.getenv('DB_HOST', '152.136.150.40')    #端口3306
 db_user = os.getenv('DB_USER', 'llmauto')       # 替换 'root' 为您的 MySQL 用户名
 # 替换 'your_password' 为您的 MySQL 密码
-db_password = os.getenv('DB_PASSWORD', 'mariadb_Ka7xyz')
+db_password = os.getenv('DB_PASSWORD', 'mariadb_zMWZZk')
 db_name = os.getenv('DB_NAME', None)         # 可选：替换 None 为您要连接的特定数据库名称
 
 # --- 尝试连接 ---
