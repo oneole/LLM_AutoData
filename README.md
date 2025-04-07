@@ -2,7 +2,7 @@
 
 # 大语言模型结构化数据分析项目
 
-![版本](https://img.shields.io/badge/版本-1.0.0-blue)
+![版本](https://img.shields.io/badge/版本-1.0.8-blue)
 ![Python](https://img.shields.io/badge/Python-3.9+-green)
 
 ## 项目概述
