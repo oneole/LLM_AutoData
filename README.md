@@ -37,8 +37,8 @@ Text2SQL智能数据分析平台是一个基于大语言模型（LLM）的智能
 
 1. 克隆项目
 ```bash
-git clone [项目地址]
-cd [项目目录]
+git clone [https://github.com/oneole/LLM_AutoData.git]
+cd [LLM_AutoData]
 ```
 
 2. 安装依赖
@@ -98,7 +98,7 @@ streamlit run app.py
 
 ## 开发团队
 
-[团队信息]
+[TeamJ 全体]
 
 ## 许可证
 
@@ -106,16 +106,11 @@ MIT License
 
 ## 致谢
 
+- Sanping Li 博士
+- 项目经理 AJ Wang
+- 
 - DeepSeek AI
 - Vanna AI
 - Streamlit
 - Plotly
 - MySQL
-
-## 更新日志
-
-### v1.0.0 (2024-04-12)
-- 初始版本发布
-- 实现基础Text2SQL功能
-- 集成数据可视化
-- 支持多种查询示例 
