@@ -38,7 +38,7 @@ Text2SQL智能数据分析平台是一个基于大语言模型（LLM）的智能
 1. 克隆项目
 ```bash
 git clone [https://github.com/oneole/LLM_AutoData.git]
-cd [LLM_AutoData]
+cd LLM_AutoData
 ```
 
 2. 安装依赖
@@ -107,10 +107,6 @@ MIT License
 ## 致谢
 
 - Sanping Li 博士
-- 项目经理 AJ Wang
-- 
-- DeepSeek AI
-- Vanna AI
-- Streamlit
-- Plotly
-- MySQL
+- AJ Wang 项目经理
+- CULIU 许维恭&Lily 老师
+- CULIU 孙红梅 女士
