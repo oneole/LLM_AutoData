@@ -162,8 +162,23 @@ def load_model():
     )
 
     text2sql.train(
+        question="查询2021年入学的学生",
+        sql="SELECT `student_id`, `student_name`, `class_id` FROM `students` WHERE `admission_year` = 2021"
+    )
+
+    text2sql.train(
         question="查询数学成绩90分以上的学生",
         sql="SELECT s.`student_id`, s.`student_name`, sc.`score` FROM `students` s JOIN `scores` sc ON s.`student_id` = sc.`student_id` JOIN `subjects` sub ON sc.`subject_id` = sub.`subject_id` WHERE sub.`subject_name` = '数学' AND sc.`score` > 90"
+    )
+
+    text2sql.train(
+        question="高一(1)班所有人的成绩",
+        sql="SELECT s.student_name, sub.subject_name, sc.score, sc.exam_date FROM scores sc JOIN students s ON s.student_id = sc.student_id JOIN subjects sub ON sub.subject_id = sc.subject_id JOIN classes c ON c.class_id = s.class_id WHERE c.class_name = '高一(1)班' ORDER BY s.student_name, sub.subject_name;"
+    )
+
+    text2sql.train(
+        question="高一(2)班所有人的成绩",
+        sql="SELECT s.student_name, sub.subject_name, sc.score, sc.exam_date FROM scores sc JOIN students s ON s.student_id = sc.student_id JOIN subjects sub ON sub.subject_id = sc.subject_id JOIN classes c ON c.class_id = s.class_id WHERE c.class_name = '高一(2)班' ORDER BY s.student_name, sub.subject_name;"
     )
 
     text2sql.train(
@@ -390,7 +405,7 @@ if st.session_state.show_results and 'query' in st.session_state and st.session_
                     df['score'] = pd.to_numeric(df['score'], errors='coerce')
                 
                 # 创建标签页
-                tab1, tab2, tab3, tab4 = st.tabs(["SQL查询", "数据表格", "数据分析", "数据可视化"])
+                tab1, tab2, tab3 = st.tabs(["SQL查询", "数据表格",  "数据可视化"])
                 
                 with tab1:
                     st.subheader("SQL查询")
@@ -400,11 +415,10 @@ if st.session_state.show_results and 'query' in st.session_state and st.session_
                     st.subheader("数据表格")
                     st.dataframe(df, use_container_width=True)
                 
-                with tab3:
-                    st.subheader("数据分析")
+                
                     # 数据分析区域已清空，只保留标签页结构
                     
-                with tab4:
+                with tab3:
                     st.subheader("数据可视化")
                     if not df.empty:
                         # 根据数据列类型自动选择可视化方式
